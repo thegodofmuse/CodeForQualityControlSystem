@@ -1,0 +1,12 @@
+<mapper namespace="ClinicUploadMapper">
+    <insert id="insertBatch">
+        INSERT INTO mq_management_team_office (office_name, meeting_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{MqManagementTeamOffice.officeName}, #{item.meetingTime})
+        </foreach>
+    </insert>
+</mapper>
+
+
+

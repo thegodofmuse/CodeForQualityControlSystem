@@ -1,0 +1,82 @@
+<template>
+  <div class="green-background">
+    <div class="rectangle-large">加密绩效表单</div>
+    <input type="file" @change="handleFileChange" />
+    <div class="centered-button">
+      <button @click="encryptFile">提交</button>
+    </div>
+    <div class="separation"></div> <!-- 添加隐形方框 -->
+
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      file: null
+    };
+  },
+  methods: {
+    handleFileChange(event) {
+      this.file = event.target.files[0];
+    },
+    encryptFile() {
+      const data = new FormData();
+      data.append('file', this.file);
+
+      axios.post('http://localhost:8998/api/hrp/encrypt', data)
+          .then(response => {
+            if (response.data.statusCode == 200) {
+              alert('操作成功！');
+            } else {
+              alert('操作失败！');
+            }
+          })
+          .catch(error => {
+            alert('操作失败！');
+            console.error(error);
+          });
+    }
+
+
+  }
+}
+
+</script>
+
+<style scoped>
+.green-background {
+  background: linear-gradient(to bottom, #4e9fff, #985eff);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+button {
+  width: 60px;
+  height: 30px;
+}
+.rectangle-large {
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center; /* 水平居中对齐文本 */
+}
+.separation {
+  height: 100px;
+  background-color: transparent;
+}
+</style>
